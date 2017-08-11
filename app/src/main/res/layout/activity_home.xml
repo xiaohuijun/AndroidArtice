@@ -62,5 +62,23 @@
             android:layout_marginTop="30dp"
             android:gravity="center"
             android:text="get_user" />
+
+        <TextView
+            android:id="@+id/tv_permission"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:text="permission" />
+
+        <TextView
+            android:id="@+id/tv_vr_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:text="center_vr_image" />
     </LinearLayout>
 </com.xj.androidartice.common.wedigt.DragViewLayout>

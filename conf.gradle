@@ -50,7 +50,6 @@ ext {
             "android-networking"         : "com.amitshekhar.android:android-networking:1.0.0",
             "jsoup"                      : "org.jsoup:jsoup:1.10.3",
 
-            "SmartRefreshLayout"         : "com.scwang.smartrefresh:SmartRefreshLayout:1.0.3-alpha-6",
             "ultraviewpager"             : "com.alibaba.android:ultraviewpager:1.0.4@aar",
 
             "glide-transformations"      : "jp.wasabeef:glide-transformations:2.0.2",
@@ -66,8 +65,14 @@ ext {
             //For testing Room migrations, add:
             //        testCompile "android.arch.persistence.room:testing:1.0.0-alpha5"
             //For Room RxJava support, add:
-            "room_rxjava"                : "android.arch.persistence.room:rxjava2:1.0.0-alpha5"
+            "room_rxjava"                : "android.arch.persistence.room:rxjava2:1.0.0-alpha5",
 
+            "permission"                 : "com.yanzhenjie:permission:1.1.0",
+
+            "SmartRefreshLayout"         : "com.scwang.smartrefresh:SmartRefreshLayout:1.0.3",
+            "SmartRefreshHeader"         : "com.scwang.smartrefresh:SmartRefreshHeader:1.0.3",//没有使用特殊Header，可以不加这行
+
+            "thridlib"                   : "com.xhj.thridlib:thridlib:1.0"
     ]
 
 }

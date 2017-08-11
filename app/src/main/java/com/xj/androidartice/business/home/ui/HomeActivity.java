@@ -7,13 +7,20 @@ import android.view.View;
 
 import com.xj.androidartice.R;
 import com.xj.androidartice.business.home.prestener.HomePrestener;
+import com.xj.androidartice.business.vr.VrImageActivity;
 import com.xj.androidartice.common.base.BaseActivity;
 import com.xj.androidartice.common.bean.User;
-import com.xj.androidartice.common.database.AppDataBase;
 import com.xj.androidartice.common.database.UserDao;
 import com.xj.ui_lib.vasSonic.BrowserActivity;
 import com.xj.ui_lib.vasSonic.SonicJavaScriptInterface;
 import com.xj.ui_lib.vasSonic.SonicModle;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.PermissionListener;
+import com.yanzhenjie.permission.Rationale;
+import com.yanzhenjie.permission.RationaleListener;
+
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -24,6 +31,7 @@ import io.reactivex.internal.operators.completable.CompletableFromAction;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.xj.androidartice.R.id.tv_get;
+import static com.xj.androidartice.R.id.tv_permission;
 import static com.xj.androidartice.R.id.tv_update;
 
 /**
@@ -41,7 +49,7 @@ public class HomeActivity extends BaseActivity<HomePrestener> {
 
     @Override
     public void initMData(Bundle savedInstanceState) {
-        userDao = AppDataBase.getDatabase(context).getUserDao();
+        //userDao = AppDataBase.getDatabase(context).getUserDao();
     }
 
 
@@ -147,11 +155,61 @@ public class HomeActivity extends BaseActivity<HomePrestener> {
                         }));
             }
         });
+
+        findViewById(tv_permission).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AndPermission.with(context)
+                        .requestCode(100)
+                        .permission(Permission.LOCATION,
+                                Permission.LOCATION)
+                        .rationale(new RationaleListener() {
+                            @Override
+                            public void showRequestPermissionRationale(int requestCode, Rationale rationale) {
+                                if (requestCode == 100)
+                                    AndPermission.rationaleDialog(context, rationale).show();
+                            }
+                        })
+                        .callback(new PermissionListener() {
+                            @Override
+                            public void onSucceed(int requestCode, @android.support.annotation.NonNull List<String> grantPermissions) {
+                                if (requestCode == 100)
+                                    showToast("ok");
+                            }
+
+                            @Override
+                            public void onFailed(int requestCode, @android.support.annotation.NonNull List<String> deniedPermissions) {
+                                // 第二种：用自定义的提示语。
+                                AndPermission.defaultSettingDialog(context, 300)
+                                        .setTitle("权限申请失败")
+                                        .setMessage("我们需要的一些权限被您拒绝或者系统发生错误申请失败，请您到设置页面手动授权，否则功能无法正常使用！")
+                                        .setPositiveButton("好，去设置")
+                                        .show();
+                            }
+                        })
+                        .start();
+            }
+        });
+
+
+        findViewById(R.id.tv_vr_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(context, VrImageActivity.class));
+            }
+        });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mDisposable.clear();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 300) {
+            AndPermission.hasPermission(context, Permission.LOCATION);
+        }
     }
 }
