@@ -12,7 +12,7 @@ import com.xj.core_lib.mvp.XPresent;
  * Created by Administrator on 2017/8/4.
  */
 
-public abstract class BaseFragment<P extends XPresent> extends XFragment {
+public abstract class BaseFragment<P extends XPresent> extends XFragment<P> {
     public IBus eventBus;
     public CoustomEvent event;
 

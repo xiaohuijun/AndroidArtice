@@ -18,14 +18,18 @@ import com.xj.core_lib.mvp.XPresent;
 import com.xj.core_lib.toastcompat.ToastCompat;
 import com.xj.core_lib.utils.util.AppManager;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+
 /**
  * Created by Administrator on 2017/8/4.
  */
 
-public abstract class BaseActivity<p extends XPresent> extends XActivity implements View.OnClickListener {
+public abstract class BaseActivity<p extends XPresent> extends XActivity<p> implements View.OnClickListener {
     public IBus eventBus;
     public CoustomEvent event;
 
+    protected final CompositeDisposable mDisposable = new CompositeDisposable();
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -52,6 +56,26 @@ public abstract class BaseActivity<p extends XPresent> extends XActivity impleme
     public void finish() {
         super.finish();
         AppManager.getAppManager().rmoveActivity(this);
+    }
+
+    public boolean addDispose(Disposable disposable) {
+        if (mDisposable != null && disposable != null) {
+            return mDisposable.add(disposable);
+        }
+        return false;
+    }
+
+    public void removeDispose(Disposable disposable) {
+        if (mDisposable != null && disposable != null) {
+            mDisposable.remove(disposable);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mDisposable != null)
+            mDisposable.clear();
     }
 
     public void showToast(int resId) {

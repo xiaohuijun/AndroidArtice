@@ -12,7 +12,7 @@ import com.xj.core_lib.mvp.XPresent;
  * Created by Administrator on 2017/8/4.
  */
 
-public abstract class BaseLazyFragment<P extends XPresent> extends XLazyFragment {
+public abstract class BaseLazyFragment<P extends XPresent> extends XLazyFragment<P> {
     public IBus eventBus;
     public CoustomEvent event;
 
@@ -31,7 +31,7 @@ public abstract class BaseLazyFragment<P extends XPresent> extends XLazyFragment
     }
 
     @Override
-    public Object newP() {
+    public P newP() {
         return newMP();
     }
 
